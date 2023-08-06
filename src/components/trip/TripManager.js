@@ -7,7 +7,7 @@ const TripManager = () => {
 
   return (
     <>
-      <div style={{ display: "flex" }}>
+      <div className='tripManager'>
         <TripCarousel />
         <button
           onClick={() => setIsOpenTripModal(true)}

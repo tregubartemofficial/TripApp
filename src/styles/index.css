@@ -9,7 +9,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 code {
@@ -23,7 +23,7 @@ code {
 main {
   display: flex;
   justify-content: space-between;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .forecast {
@@ -36,6 +36,40 @@ main {
   color: #ffffff;
   justify-content: space-around;
   padding: 20px;
+}
+
+.trip {
+  min-width: 60vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.trip > p {
+  margin: 20px 0;
+}
+
+.tripManager {
+  display: flex;
+}
+
+.searchTripInput {
+  position: relative;
+  margin: 20px 0;
+}
+
+.weekForecastList {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.weekForecastList li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100px;
 }
 
 .weatherIcon {
@@ -52,13 +86,6 @@ main {
   top: -1em;
   left: 100%;
   font-size: 0.7em;
-}
-
-.trip {
-  min-width: 60vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .avatar {
@@ -173,7 +200,7 @@ main {
   padding: 0 2vw;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 550px) {
   .timeLeft {
     flex-direction: column;
   }
@@ -181,9 +208,22 @@ main {
   .wrapper {
     padding: 15px;
   }
+
+  .tripManager {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .weekForecastList{
+    justify-content: center;
+  }
+
+  .addTripButton {
+    margin: 20px 0;
+  }
 }
 
-@media (max-width: 1050px) {
+@media (max-width: 1000px) {
   main {
     flex-direction: column;
   }

@@ -16,17 +16,6 @@ const TripsCarousel = () => {
   const dispatch = useDispatch();
   const { trips } = useSelector((state) => state.trips);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
-  const handleResize = () => {
-    setViewportWidth(window.innerWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   useEffect(() => {
     const unsubscribe = listenToTripsFromFirestore((tripsData) => {
@@ -36,6 +25,17 @@ const TripsCarousel = () => {
       unsubscribe();
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const handleResize = () => {
+    setViewportWidth(window.innerWidth);
+  };
 
   const handlePrevious = () => {
     const newIndex = current - 1;
@@ -61,6 +61,7 @@ const TripsCarousel = () => {
     dispatch(setWeekWeather(weekWeather));
     dispatch(setTodayWeather(todayWeather));
   }
+  console.log();
 
   return (
     <div className="tripCarousel">
@@ -74,7 +75,7 @@ const TripsCarousel = () => {
         </svg>
       </RippleButton>
       <ul className="tripList">
-        {trips[0] &&
+        {!!trips &&
           trips.map((trip, index) => {
             const formattedStartDate = new Date(trip.startDate)
               .toLocaleDateString("en-GB")
@@ -84,7 +85,9 @@ const TripsCarousel = () => {
               .replace(/\//g, ".");
             const isVisible =
               index === current ||
-              (viewportWidth > 750 && index === (current + 1) % trips.length);
+              ((viewportWidth > 1200 ||
+                (viewportWidth < 1000 && viewportWidth > 750)) &&
+                index === (current + 1) % trips.length);
             if (isVisible) {
               return (
                 <li key={index}>
@@ -100,7 +103,7 @@ const TripsCarousel = () => {
                     />
                     <p className="tripCardTitle">{trip.city}</p>
                     <p className="tripCardBody">
-                      {formattedStartDate}-{formattedEndDate}
+                      {formattedStartDate} - {formattedEndDate}
                     </p>
                   </button>
                 </li>
