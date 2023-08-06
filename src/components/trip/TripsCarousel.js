@@ -74,39 +74,40 @@ const TripsCarousel = () => {
         </svg>
       </RippleButton>
       <ul className="tripList">
-        {trips.map((trip, index) => {
-          const formattedStartDate = new Date(trip.startDate)
-            .toLocaleDateString("en-GB")
-            .replace(/\//g, ".");
-          const formattedEndDate = new Date(trip.endDate)
-            .toLocaleDateString("en-GB")
-            .replace(/\//g, ".");
-          const isVisible =
-            index === current ||
-            (viewportWidth > 750 && index === (current + 1) % trips.length);
-          if (isVisible) {
-            return (
-              <li key={index}>
-                <button
-                  className="tripCard"
-                  onClick={() =>
-                    fetchWeather(trip.city, trip.startDate, trip.endDate)
-                  }
-                >
-                  <img
-                    src={`/images/cities/${trip.city}.jpg`}
-                    alt={trip.city}
-                  />
-                  <p className="tripCardTitle">{trip.city}</p>
-                  <p className="tripCardBody">
-                    {formattedStartDate}-{formattedEndDate}
-                  </p>
-                </button>
-              </li>
-            );
-          }
-          return null;
-        })}
+        {trips[0] &&
+          trips.map((trip, index) => {
+            const formattedStartDate = new Date(trip.startDate)
+              .toLocaleDateString("en-GB")
+              .replace(/\//g, ".");
+            const formattedEndDate = new Date(trip.endDate)
+              .toLocaleDateString("en-GB")
+              .replace(/\//g, ".");
+            const isVisible =
+              index === current ||
+              (viewportWidth > 750 && index === (current + 1) % trips.length);
+            if (isVisible) {
+              return (
+                <li key={index}>
+                  <button
+                    className="tripCard"
+                    onClick={() =>
+                      fetchWeather(trip.city, trip.startDate, trip.endDate)
+                    }
+                  >
+                    <img
+                      src={`/images/cities/${trip.city}.jpg`}
+                      alt={trip.city}
+                    />
+                    <p className="tripCardTitle">{trip.city}</p>
+                    <p className="tripCardBody">
+                      {formattedStartDate}-{formattedEndDate}
+                    </p>
+                  </button>
+                </li>
+              );
+            }
+            return null;
+          })}
       </ul>
       <RippleButton onClick={handleNext} className="submitButton blue">
         <svg
