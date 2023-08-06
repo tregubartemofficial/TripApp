@@ -1,0 +1,194 @@
+:root {
+  --forecast-theme: #110e3b;
+  --font-color-secondary: #aaaaba;
+  --font-color-dark: #000000;
+  --font-color-light: #ffffff;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.wrapper {
+  padding: 50px;
+}
+
+main {
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.forecast {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  min-width: 40vw;
+  min-height: 65vh;
+  background: var(--forecast-theme);
+  color: #ffffff;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.weatherIcon {
+  width: 100px;
+}
+
+.temp {
+  position: relative;
+}
+
+.temp::after {
+  content: "\2103";
+  position: absolute;
+  top: -1em;
+  left: 100%;
+  font-size: 0.7em;
+}
+
+.trip {
+  min-width: 60vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 50px;
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 5;
+}
+
+.avatar:hover {
+  transform: scale(1.05);
+}
+
+.searchInput {
+  background-color: #f2f4f8;
+  border-radius: 10px;
+  padding: 10px;
+  border: none;
+  padding-left: 1.8rem;
+  transition: all 0.2s ease;
+}
+
+.searchInput:hover,
+.searchInput:focus {
+  background-color: #eaeaea;
+}
+
+.icon {
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 4px;
+  position: absolute;
+  box-sizing: border-box;
+  top: 50%;
+  left: 3px;
+  transform: translateY(-50%);
+}
+
+.tripList {
+  display: flex;
+  transition: all 0.3s ease;
+}
+
+.tripCard {
+  margin: 0 20px;
+  transition: all 0.2s;
+  outline: 1px solid #b9b9b9;
+  max-width: 320px;
+  min-width: 170px;
+  background-color: #ffffff;
+  padding: 0;
+}
+
+.tripCard:hover {
+  outline: 1px solid #58afff;
+}
+
+.tripCard:focus {
+  outline: 2px solid #58afff;
+}
+
+.tripCard img {
+  overflow: hidden;
+  height: 150px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.tripCardTitle {
+  margin: 1rem 1rem 0.5rem;
+  color: var(--font-color-dark);
+}
+
+.tripCardBody {
+  margin: 0.5rem 1rem 1rem;
+  color: var(--font-color-secondary);
+  font-size: small;
+}
+
+.addTripButton {
+  background-color: #f2f4f8;
+  display: flex;
+  height: 150px;
+  width: 150px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  max-width: 320px;
+}
+
+.addTripButton:hover {
+  background-color: #eaeaea;
+  transform: scale(1.1);
+}
+
+.addTripButton:active {
+  transform: scale(0.9);
+}
+
+/* Responsive styles */
+.timeLeft {
+  display: flex;
+}
+
+.timeLeft div {
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 2vw;
+}
+
+@media (max-width: 500px) {
+  .timeLeft {
+    flex-direction: column;
+  }
+
+  .wrapper {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 1050px) {
+  main {
+    flex-direction: column;
+  }
+
+  body {
+    overflow: auto;
+  }
+}

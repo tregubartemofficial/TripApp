@@ -1,0 +1,15 @@
+.tripCarousel {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.tripCarousel > button {
+    z-index: 10;
+    border-radius: 0.375rem;
+    padding: 0.375rem 0.75rem;
+}
+
+.tripCarousel svg {
+    fill: #ffffff;
+}
