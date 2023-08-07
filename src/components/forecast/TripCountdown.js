@@ -2,8 +2,11 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const TripCountdown = () => {
-  const { trips } = useSelector((state) => state.trips);
-  const tripStartDate = useCallback(() => new Date("2023-09-01"), []);
+  const { selectedTrip } = useSelector((state) => state.trips);
+  const tripStartDate = useCallback(
+    () => new Date(selectedTrip?.startDate),
+    [selectedTrip]
+  );
   const calculateTimeLeft = useCallback(() => {
     const difference = tripStartDate().getTime() - new Date().getTime();
     let timeLeft = {};
@@ -23,32 +26,46 @@ const TripCountdown = () => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
+    if (!selectedTrip) {
+      return;
+    }
+
     const interval = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [calculateTimeLeft]);
+  }, [selectedTrip, calculateTimeLeft]);
 
   return (
-    <section className="timeLeft">
-      <div>
-        <h3>{timeLeft.days}</h3>
-        <p>DAYS</p>
-      </div>
-      <div>
-        <h3>{timeLeft.hours}</h3>
-        <p>HOURS</p>
-      </div>
-      <div>
-        <h3>{timeLeft.minutes}</h3>
-        <p>MINUTES</p>
-      </div>
-      <div>
-        <h3>{timeLeft.seconds}</h3>
-        <p>SECONDS</p>
-      </div>
-    </section>
+    selectedTrip?.startDate && (
+      <section className="timeLeft">
+        {timeLeft.days ? (
+          <>
+            <div>
+              <h3>{timeLeft.days}</h3>
+              <p>DAYS</p>
+            </div>
+            <div>
+              <h3>{timeLeft.hours}</h3>
+              <p>HOURS</p>
+            </div>
+            <div>
+              <h3>{timeLeft.minutes}</h3>
+              <p>MINUTES</p>
+            </div>
+            <div>
+              <h3>{timeLeft.seconds}</h3>
+              <p>SECONDS</p>
+            </div>
+          </>
+        ) : (
+          <div>
+            <h3>Trip Started</h3>
+          </div>
+        )}
+      </section>
+    )
   );
 };
 

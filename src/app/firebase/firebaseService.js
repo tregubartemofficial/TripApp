@@ -20,8 +20,6 @@ export function listenToTripsFromFirestore(callback) {
   );
 }
 
-
-
 export function addTripToFirestore(trip) {
   return db.collection("trips").add(trip);
 }

@@ -10,8 +10,11 @@ const tripSlice = createSlice({
       const sortedTrips = payload.sort((a, b) => (a.startDate - b.startDate))
       state.trips = sortedTrips;
     },
+    setSelectedTrip: (state, {payload}) => {
+      state.selectedTrip = payload
+    }
   },
 });
 
-export const { setTrips } = tripSlice.actions;
+export const { setTrips, setSelectedTrip } = tripSlice.actions;
 export default tripSlice.reducer;

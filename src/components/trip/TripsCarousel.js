@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import RippleButton from "../button/RippleButton";
 import { useDispatch, useSelector } from "react-redux";
-import { setTrips } from "../../app/features/trip/tripReducer";
+import { setSelectedTrip, setTrips } from "../../app/features/trip/tripReducer";
 import { listenToTripsFromFirestore } from "../../app/firebase/firebaseService";
 import {
   setTodayWeather,
@@ -16,7 +16,7 @@ const TripsCarousel = ({ searchTripInput }) => {
   const dispatch = useDispatch();
   const { trips } = useSelector((state) => state.trips);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
-  const searchedTrips = trips.filter((trip) =>
+  const searchedTrips = trips?.filter((trip) =>
     trip.city.includes(searchTripInput)
   );
 
@@ -42,12 +42,12 @@ const TripsCarousel = ({ searchTripInput }) => {
 
   const handlePrevious = () => {
     const newIndex = current - 1;
-    setCurrent(newIndex < 0 ? searchedTrips.length - 1 : newIndex);
+    setCurrent(newIndex < 0 ? searchedTrips?.length - 1 : newIndex);
   };
 
   const handleNext = () => {
     const newIndex = current + 1;
-    setCurrent(newIndex >= searchedTrips.length ? 0 : newIndex);
+    setCurrent(newIndex >= searchedTrips?.length ? 0 : newIndex);
   };
 
   async function fetchWeather(city, startDate, endDate) {
@@ -64,11 +64,10 @@ const TripsCarousel = ({ searchTripInput }) => {
     dispatch(setWeekWeather(weekWeather));
     dispatch(setTodayWeather(todayWeather));
   }
-  
 
   return (
     <div className="tripCarousel">
-      {searchedTrips.length > 0 && (
+      {searchedTrips?.length > 0 && (
         <RippleButton onClick={handlePrevious} className="submitButton blue">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -98,9 +97,10 @@ const TripsCarousel = ({ searchTripInput }) => {
                 <li key={index}>
                   <button
                     className="tripCard"
-                    onClick={() =>
-                      fetchWeather(trip.city, trip.startDate, trip.endDate)
-                    }
+                    onClick={() => {
+                      fetchWeather(trip.city, trip.startDate, trip.endDate);
+                      dispatch(setSelectedTrip(trip));
+                    }}
                   >
                     <img
                       src={`/images/cities/${trip.city}.jpg`}
@@ -116,13 +116,13 @@ const TripsCarousel = ({ searchTripInput }) => {
             }
             return null;
           })}
-        {searchedTrips.length === 0 && (
+        {searchedTrips?.length === 0 && (
           <li>
             <h2 className="tripCardTitle">No cities match</h2>
           </li>
         )}
       </ul>
-      {searchedTrips.length > 0 && (
+      {searchedTrips?.length > 0 && (
         <RippleButton onClick={handleNext} className="submitButton blue">
           <svg
             xmlns="http://www.w3.org/2000/svg"
