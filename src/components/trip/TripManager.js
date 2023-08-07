@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import TripModal from "../modal/TripModal";
 import TripCarousel from './TripsCarousel';
 
-const TripManager = () => {
+const TripManager = ({ searchTripInput }) => {
   const [isOpenTripModal, setIsOpenTripModal] = useState(false);
 
   return (
     <>
-      <div className='tripManager'>
-        <TripCarousel />
+      <div className="tripManager">
+        <TripCarousel searchTripInput={searchTripInput} />
         <button
           onClick={() => setIsOpenTripModal(true)}
           className="addTripButton"

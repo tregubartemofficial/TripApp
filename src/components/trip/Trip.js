@@ -3,11 +3,11 @@ import WeekForecast from "./WeekForecast";
 import TripManager from "./TripManager";
 
 const Trip = () => {
-  const [searchTripInput, setSearchTripInput] = useState('')
+  const [searchTripInput, setSearchTripInput] = useState("");
   return (
     <article className="wrapper trip">
       <h1>
-        <span style={{fontWeight: 'normal'}}>Weather</span> Forecast
+        <span style={{ fontWeight: "normal" }}>Weather</span> Forecast
       </h1>
       <div className="searchTripInput">
         <img className="icon" src="/images/loop.png" alt="loop" />
@@ -19,7 +19,7 @@ const Trip = () => {
           className="searchInput"
         />
       </div>
-      <TripManager />
+      <TripManager searchTripInput={searchTripInput} />
       <p>Week</p>
       <WeekForecast />
     </article>

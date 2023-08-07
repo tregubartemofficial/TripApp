@@ -1,4 +1,5 @@
 import firebase from './config'
+import "firebase/compat/auth";
 
 const db = firebase.firestore();
 
@@ -23,4 +24,16 @@ export function listenToTripsFromFirestore(callback) {
 
 export function addTripToFirestore(trip) {
   return db.collection("trips").add(trip);
+}
+
+export async function socialLogin() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  try {
+    const result = await firebase.auth().signInWithPopup(provider);
+    if (result.additionalUserInfo.isNewUser) {
+      console.log('Hello new user', result.user);
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
 }

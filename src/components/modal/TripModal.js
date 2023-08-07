@@ -5,16 +5,18 @@ import "../../styles/Modal.css";
 
 const CITY_OPTIONS = ["Vinnytsia", "Lviv", "Kyiv", "Paris", "Berlin"];
 
+const getFormattedDate = (date) => {
+  return date.toISOString().split("T")[0];
+};
+
 const TripModal = ({ active, setActive }) => {
-  const [cityInput, setCityInput] = useState("");
+  const [cityInput, setCityInput] = useState("Vinnytsia");
   const [startDateInput, setStartDateInput] = useState("");
   const [endDateInput, setEndDateInput] = useState("");
-  const todayFormattedDate = new Date().toISOString().split("T")[0];
-  const maxFormattedDate = new Date(
-    new Date().setDate(new Date().getDate() + 15)
-  )
-    .toISOString()
-    .split("T")[0];
+  const todayFormattedDate = getFormattedDate(new Date());
+  const maxFormattedDate = getFormattedDate(
+    new Date(new Date().setDate(new Date().getDate() + 15))
+  );
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,7 +27,7 @@ const TripModal = ({ active, setActive }) => {
     };
     try {
       await addTripToFirestore(data);
-      setActive(false)
+      setActive(false);
     } catch (error) {
       console.error(error);
     }

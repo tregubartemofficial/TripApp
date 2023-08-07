@@ -3,19 +3,22 @@ import RippleButton from "../button/RippleButton";
 import { useDispatch, useSelector } from "react-redux";
 import { setTrips } from "../../app/features/trip/tripReducer";
 import { listenToTripsFromFirestore } from "../../app/firebase/firebaseService";
-import "../../styles/Carousel.css";
 import {
   setTodayWeather,
   setWeekWeather,
 } from "../../app/features/weather/weatherReducer";
+import "../../styles/Carousel.css";
 
 const apiKey = "245E45XT5YP3F2RGFTSUWZ5KB";
 
-const TripsCarousel = () => {
+const TripsCarousel = ({ searchTripInput }) => {
   const [current, setCurrent] = useState(0);
   const dispatch = useDispatch();
   const { trips } = useSelector((state) => state.trips);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  const searchedTrips = trips.filter((trip) =>
+    trip.city.includes(searchTripInput)
+  );
 
   useEffect(() => {
     const unsubscribe = listenToTripsFromFirestore((tripsData) => {
@@ -39,12 +42,12 @@ const TripsCarousel = () => {
 
   const handlePrevious = () => {
     const newIndex = current - 1;
-    setCurrent(newIndex < 0 ? trips.length - 1 : newIndex);
+    setCurrent(newIndex < 0 ? searchedTrips.length - 1 : newIndex);
   };
 
   const handleNext = () => {
     const newIndex = current + 1;
-    setCurrent(newIndex >= trips.length ? 0 : newIndex);
+    setCurrent(newIndex >= searchedTrips.length ? 0 : newIndex);
   };
 
   async function fetchWeather(city, startDate, endDate) {
@@ -61,22 +64,24 @@ const TripsCarousel = () => {
     dispatch(setWeekWeather(weekWeather));
     dispatch(setTodayWeather(todayWeather));
   }
-  console.log();
+  
 
   return (
     <div className="tripCarousel">
-      <RippleButton onClick={handlePrevious} className="submitButton blue">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="1em"
-          viewBox="0 0 320 512"
-        >
-          <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
-        </svg>
-      </RippleButton>
+      {searchedTrips.length > 0 && (
+        <RippleButton onClick={handlePrevious} className="submitButton blue">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="1em"
+            viewBox="0 0 320 512"
+          >
+            <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+          </svg>
+        </RippleButton>
+      )}
       <ul className="tripList">
         {!!trips &&
-          trips.map((trip, index) => {
+          searchedTrips.map((trip, index) => {
             const formattedStartDate = new Date(trip.startDate)
               .toLocaleDateString("en-GB")
               .replace(/\//g, ".");
@@ -111,16 +116,23 @@ const TripsCarousel = () => {
             }
             return null;
           })}
+        {searchedTrips.length === 0 && (
+          <li>
+            <h2 className="tripCardTitle">No cities match</h2>
+          </li>
+        )}
       </ul>
-      <RippleButton onClick={handleNext} className="submitButton blue">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="1em"
-          viewBox="0 0 320 512"
-        >
-          <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
-        </svg>
-      </RippleButton>
+      {searchedTrips.length > 0 && (
+        <RippleButton onClick={handleNext} className="submitButton blue">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="1em"
+            viewBox="0 0 320 512"
+          >
+            <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
+          </svg>
+        </RippleButton>
+      )}
     </div>
   );
 };
