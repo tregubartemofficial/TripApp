@@ -26,10 +26,6 @@ const TripCountdown = () => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
-    if (!selectedTrip) {
-      return;
-    }
-
     const interval = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);

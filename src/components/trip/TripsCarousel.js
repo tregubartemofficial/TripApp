@@ -17,9 +17,8 @@ const TripsCarousel = ({ searchTripInput }) => {
   const { trips } = useSelector((state) => state.trips);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   const searchedTrips = trips?.filter((trip) =>
-    trip.city.includes(searchTripInput)
+    trip.city.toLowerCase().includes(searchTripInput.toLowerCase())
   );
-
   useEffect(() => {
     const unsubscribe = listenToTripsFromFirestore((tripsData) => {
       dispatch(setTrips(tripsData));
@@ -30,16 +29,16 @@ const TripsCarousel = ({ searchTripInput }) => {
   }, [dispatch]);
 
   useEffect(() => {
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
     window.addEventListener("resize", handleResize);
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  const handleResize = () => {
-    setViewportWidth(window.innerWidth);
-  };
-
   const handlePrevious = () => {
     const newIndex = current - 1;
     setCurrent(newIndex < 0 ? searchedTrips?.length - 1 : newIndex);
@@ -51,18 +50,25 @@ const TripsCarousel = ({ searchTripInput }) => {
   };
 
   async function fetchWeather(city, startDate, endDate) {
-    const formattedStartDate = new Date(startDate).toISOString().split("T")[0];
-    const formattedEndDate = new Date(endDate).toISOString().split("T")[0];
-    const todayWeatherResponse = await fetch(
-      `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}/today?unitGroup=metric&include=days&key=${apiKey}&contentType=json`
-    );
-    const todayWeather = await todayWeatherResponse.json();
-    const weekWeatherResponse = await fetch(
-      `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}/${formattedStartDate}/${formattedEndDate}?unitGroup=metric&include=days&key=${apiKey}&contentType=json`
-    );
-    const weekWeather = await weekWeatherResponse.json();
-    dispatch(setWeekWeather(weekWeather));
-    dispatch(setTodayWeather(todayWeather));
+    try {
+       const formattedStartDate = new Date(startDate)
+         .toISOString()
+         .split("T")[0];
+       const formattedEndDate = new Date(endDate).toISOString().split("T")[0];
+       const todayWeatherResponse = await fetch(
+         `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}/today?unitGroup=metric&include=days&key=${apiKey}&contentType=json`
+       );
+       const todayWeather = await todayWeatherResponse.json();
+       const weekWeatherResponse = await fetch(
+         `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}/${formattedStartDate}/${formattedEndDate}?unitGroup=metric&include=days&key=${apiKey}&contentType=json`
+       );
+       const weekWeather = await weekWeatherResponse.json();
+       dispatch(setWeekWeather(weekWeather));
+       dispatch(setTodayWeather(todayWeather));
+    } catch (error) {
+      console.log(error);
+    }
+   
   }
 
   return (
@@ -88,10 +94,10 @@ const TripsCarousel = ({ searchTripInput }) => {
               .toLocaleDateString("en-GB")
               .replace(/\//g, ".");
             const isVisible =
-              index === current ||
               ((viewportWidth > 1200 ||
                 (viewportWidth < 1000 && viewportWidth > 750)) &&
-                index === (current + 1) % trips.length);
+                index === (current + 1) % searchedTrips.length) ||
+              index === current;
             if (isVisible) {
               return (
                 <li key={index}>

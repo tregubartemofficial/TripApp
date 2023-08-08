@@ -3,7 +3,7 @@ import RippleButton from "../button/RippleButton";
 import { addTripToFirestore } from "../../app/firebase/firebaseService";
 import "../../styles/Modal.css";
 
-const CITY_OPTIONS = ["Vinnytsia", "Lviv", "Kyiv", "Paris", "Berlin"];
+const CITY_OPTIONS = ["Vinnytsia", "Kyiv", "Paris", "Berlin"];
 
 const getFormattedDate = (date) => {
   return date.toISOString().split("T")[0];

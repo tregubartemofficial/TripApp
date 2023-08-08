@@ -16,6 +16,7 @@ import weatherReducer from "./app/features/weather/weatherReducer";
 const tripPersistConfig = {
   key: "trip",
   storage,
+  whitelist: ["0", "trips"],
 };
 
 const persistedTripReducer = persistReducer(
