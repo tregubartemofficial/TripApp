@@ -29,8 +29,11 @@ export async function socialLogin() {
   try {
     const result = await firebase.auth().signInWithPopup(provider);
     if (result.additionalUserInfo.isNewUser) {
-      console.log('Hello new user', result.user);
+      alert('Hello new user!')
+    } else {
+      alert('Welcome back =)')
     }
+    
   } catch (error) {
     console.log(error.message);
   }

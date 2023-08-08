@@ -100,10 +100,11 @@ const TripModal = ({ active, setActive }) => {
               className="cancelButton grey"
               onClick={() => setActive(false)}
               type="button"
+              name='cancel'
             >
               Cancel
             </RippleButton>
-            <RippleButton type="submit" className="submitButton blue">
+            <RippleButton type="submit" className="submitButton blue" name='save trip'>
               Save
             </RippleButton>
           </div>

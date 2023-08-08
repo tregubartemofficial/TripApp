@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/RippleButton.css";
 
-const RippleButton = ({ children, onClick, className, type }) => {
+const RippleButton = ({ children, onClick, className, type, name }) => {
   const [coords, setCoords] = useState({ x: -1, y: -1 });
   const [isRippling, setIsRippling] = useState(false);
 
@@ -25,6 +25,7 @@ const RippleButton = ({ children, onClick, className, type }) => {
         onClick && onClick(e);
       }}
       type={type}
+      name={name}
     >
       {isRippling ? (
         <span

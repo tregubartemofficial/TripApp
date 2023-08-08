@@ -19,6 +19,11 @@ const TripsCarousel = ({ searchTripInput }) => {
   const searchedTrips = trips?.filter((trip) =>
     trip.city.toLowerCase().includes(searchTripInput.toLowerCase())
   );
+
+  useEffect(() => {
+    setCurrent(0); 
+  }, [searchTripInput]);
+
   useEffect(() => {
     const unsubscribe = listenToTripsFromFirestore((tripsData) => {
       dispatch(setTrips(tripsData));
@@ -39,6 +44,7 @@ const TripsCarousel = ({ searchTripInput }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  
   const handlePrevious = () => {
     const newIndex = current - 1;
     setCurrent(newIndex < 0 ? searchedTrips?.length - 1 : newIndex);
@@ -74,7 +80,11 @@ const TripsCarousel = ({ searchTripInput }) => {
   return (
     <div className="tripCarousel">
       {searchedTrips?.length > 0 && (
-        <RippleButton onClick={handlePrevious} className="submitButton blue">
+        <RippleButton
+          onClick={handlePrevious}
+          className="submitButton blue"
+          name="previous trip"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="1em"
@@ -129,7 +139,11 @@ const TripsCarousel = ({ searchTripInput }) => {
         )}
       </ul>
       {searchedTrips?.length > 0 && (
-        <RippleButton onClick={handleNext} className="submitButton blue">
+        <RippleButton
+          onClick={handleNext}
+          className="submitButton blue"
+          name="next trip"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="1em"
