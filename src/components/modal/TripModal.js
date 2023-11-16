@@ -27,6 +27,8 @@ const TripModal = ({ active, setActive }) => {
     };
     try {
       await addTripToFirestore(data);
+      setStartDateInput("");
+      setEndDateInput("");
       setActive(false);
     } catch (error) {
       console.error(error);
@@ -36,25 +38,32 @@ const TripModal = ({ active, setActive }) => {
   return (
     <div
       className={active ? "modal active" : "modal"}
+      role="dialog"
+      aria-modal="true"
       onClick={() => setActive(false)}
     >
       <div
         className={active ? "modalContent active" : "modalContent"}
         onClick={(e) => e.stopPropagation()}
+        role="document"
       >
-        <div className="modalHeader">
-          <p>Create trip</p>
-          <img
+        <header className="modalHeader">
+          <h2>Create Trip</h2>
+          <button
+            className="closeButton"
+            aria-label="Close"
+            type="button"
             onClick={() => setActive(false)}
-            src="/images/cancel.png"
-            alt="cancel"
-          />
-        </div>
+          >
+            <img src="/images/cancel.png" alt="cancel" />
+          </button>
+        </header>
         <form onSubmit={handleSubmit}>
           <div className="modalInput">
             <label htmlFor="city">City</label>
             <select
               name="city"
+              id="city"
               required
               value={cityInput}
               onChange={(e) => setCityInput(e.target.value)}
@@ -100,11 +109,15 @@ const TripModal = ({ active, setActive }) => {
               className="cancelButton grey"
               onClick={() => setActive(false)}
               type="button"
-              name='cancel'
+              name="cancel"
             >
               Cancel
             </RippleButton>
-            <RippleButton type="submit" className="submitButton blue" name='save trip'>
+            <RippleButton
+              type="submit"
+              className="submitButton blue"
+              name="saveTrip"
+            >
               Save
             </RippleButton>
           </div>

@@ -4,25 +4,25 @@ import { useSelector } from 'react-redux';
 const TodayForecast = React.memo(() => {
   const { todayWeather } = useSelector((state) => state.weather);
   return (
-    <section style={{ textAlign: "center" }}>
+    <article style={{ textAlign: "center" }}>
       {todayWeather?.address ? (
         <>
-          <h1>{new Date().toLocaleDateString("en-us", { weekday: "long" })}</h1>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <h2>{new Date().toLocaleDateString("en-us", { weekday: "long" })}</h2>
+          <figure style={{ display: "flex", alignItems: "center" }}>
             <img
               src={`/images/weather/animated/${todayWeather.days[0].icon}.svg`}
               alt={`${todayWeather.days[0].icon} icon`}
               className="weatherIcon"
             />
-            <h2>
+            <figcaption style={{fontWeight: 'bold', fontSize: 'large'}}>
               <span className="temp">{todayWeather.days[0].temp}</span>
-            </h2>
-          </div>
+            </figcaption>
+          </figure>
         </>
       ) : (
-        <p>Select a trip to see the city's weather</p>
+        <h3>Select a trip to see the city's weather</h3>
       )}
-    </section>
+    </article>
   );
 })
 

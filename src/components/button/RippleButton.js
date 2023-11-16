@@ -43,4 +43,4 @@ const RippleButton = ({ children, onClick, className, type, name }) => {
   );
 };
 
-export default RippleButton
+export default RippleButton;

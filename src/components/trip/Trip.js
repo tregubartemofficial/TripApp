@@ -9,7 +9,7 @@ const Trip = () => {
       <h1>
         <span style={{ fontWeight: "normal" }}>Weather</span> Forecast
       </h1>
-      <div className="searchTripInput">
+      <section className="searchTripInput">
         <img className="icon" src="/images/loop.png" alt="loop" />
         <input
           type="text"
@@ -18,7 +18,7 @@ const Trip = () => {
           placeholder="Search your trip"
           className="searchInput"
         />
-      </div>
+      </section>
       <TripManager searchTripInput={searchTripInput} />
       <p>Week</p>
       <WeekForecast />

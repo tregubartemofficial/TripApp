@@ -38,27 +38,27 @@ const TripCountdown = () => {
       <section className="timeLeft">
         {timeLeft.days ? (
           <>
-            <div>
-              <h3>{timeLeft.days}</h3>
+            <section>
+              <time className="timeUnit">{timeLeft.days}</time>
               <p>DAYS</p>
-            </div>
-            <div>
-              <h3>{timeLeft.hours}</h3>
+            </section>
+            <section>
+              <time className="timeUnit">{timeLeft.hours}</time>
               <p>HOURS</p>
-            </div>
-            <div>
-              <h3>{timeLeft.minutes}</h3>
+            </section>
+            <section>
+              <time className="timeUnit">{timeLeft.minutes}</time>
               <p>MINUTES</p>
-            </div>
-            <div>
-              <h3>{timeLeft.seconds}</h3>
+            </section>
+            <section>
+              <time className="timeUnit">{timeLeft.seconds}</time>
               <p>SECONDS</p>
-            </div>
+            </section>
           </>
         ) : (
-          <div>
+          <section>
             <h3>Trip Started</h3>
-          </div>
+          </section>
         )}
       </section>
     )

@@ -21,7 +21,7 @@ const TripsCarousel = ({ searchTripInput }) => {
   );
 
   useEffect(() => {
-    setCurrent(0); 
+    setCurrent(0);
   }, [searchTripInput]);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const TripsCarousel = ({ searchTripInput }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  
+
   const handlePrevious = () => {
     const newIndex = current - 1;
     setCurrent(newIndex < 0 ? searchedTrips?.length - 1 : newIndex);
@@ -57,24 +57,23 @@ const TripsCarousel = ({ searchTripInput }) => {
 
   async function fetchWeather(city, startDate, endDate) {
     try {
-       const formattedStartDate = new Date(startDate)
-         .toISOString()
-         .split("T")[0];
-       const formattedEndDate = new Date(endDate).toISOString().split("T")[0];
-       const todayWeatherResponse = await fetch(
-         `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}/today?unitGroup=metric&include=days&key=${apiKey}&contentType=json`
-       );
-       const todayWeather = await todayWeatherResponse.json();
-       const weekWeatherResponse = await fetch(
-         `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}/${formattedStartDate}/${formattedEndDate}?unitGroup=metric&include=days&key=${apiKey}&contentType=json`
-       );
-       const weekWeather = await weekWeatherResponse.json();
-       dispatch(setWeekWeather(weekWeather));
-       dispatch(setTodayWeather(todayWeather));
+      const formattedStartDate = new Date(startDate)
+        .toISOString()
+        .split("T")[0];
+      const formattedEndDate = new Date(endDate).toISOString().split("T")[0];
+      const todayWeatherResponse = await fetch(
+        `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}/today?unitGroup=metric&include=days&key=${apiKey}&contentType=json`
+      );
+      const todayWeather = await todayWeatherResponse.json();
+      const weekWeatherResponse = await fetch(
+        `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}/${formattedStartDate}/${formattedEndDate}?unitGroup=metric&include=days&key=${apiKey}&contentType=json`
+      );
+      const weekWeather = await weekWeatherResponse.json();
+      dispatch(setWeekWeather(weekWeather));
+      dispatch(setTodayWeather(todayWeather));
     } catch (error) {
       console.log(error);
     }
-   
   }
 
   return (

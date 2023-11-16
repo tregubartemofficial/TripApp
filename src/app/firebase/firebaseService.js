@@ -1,4 +1,4 @@
-import firebase from './config'
+import firebase from "./config";
 import "firebase/compat/auth";
 
 const db = firebase.firestore();
@@ -29,11 +29,10 @@ export async function socialLogin() {
   try {
     const result = await firebase.auth().signInWithPopup(provider);
     if (result.additionalUserInfo.isNewUser) {
-      alert('Hello new user!')
+      alert("Hello new user!");
     } else {
-      alert('Welcome back =)')
+      alert("Welcome back =)");
     }
-    
   } catch (error) {
     console.log(error.message);
   }

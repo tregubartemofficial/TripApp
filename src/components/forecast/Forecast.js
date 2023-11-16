@@ -6,17 +6,15 @@ import { socialLogin } from "../../app/firebase/firebaseService";
 const Forecast = () => {
   return (
     <article className="forecast">
-      <div>
-        <img src="/images/avatar.png" alt="avatar" className="avatar" onClick={() => socialLogin()}/>
-      </div>
-      <div className="x1">
+      <img src="/images/avatar.png" alt="avatar" className="avatar" onClick={() => socialLogin()}/>
+      <section className="x1">
         <div className="cloud" />
-      </div>
+      </section>
       <TodayForecast />
       <TripCountdown />
-      <div className="x2">
+      <section className="x2">
         <div className="cloud" />
-      </div>
+      </section>
     </article>
   );
 };
